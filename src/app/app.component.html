@@ -1,21 +1,86 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
+  <div class="card border-info mb-3">
+    <div class="card-header">Bitcoin live data</div>
+    <div *ngIf="bitcoin !== undefined" class="card-body text-info">
+      <div class="card-text">
+        <ul class="list-group">
+          <li class="list-group-item">Lock time: {{ bitcoin.lock_time }}</li>
+          <li class="list-group-item">Ver: {{ bitcoin.ver }}</li>
+          <li class="list-group-item">Size: {{ bitcoin.size }}</li>
+          <li class="list-group-item">
+            Inputs: {{ bitcoin.size }}
+            <div class="list-group" *ngFor="let input of bitcoin.inputs">
+              <li href="#" class="list-group-item">sequence: {{ input.sequence }}</li>
+              <li href="#" class="list-group-item">Prev out:
+                <ul class="list-group">
+                  <li class="list-group-item">Spent: {{ input.prev_out.spent }}</li>
+                  <li class="list-group-item">Tx index: {{ input.prev_out.tx_index }}</li>
+                  <li class="list-group-item">Type: {{ input.prev_out.type }}</li>
+                  <li class="list-group-item">Address: {{ input.prev_out.addr }}</li>
+                  <li class="list-group-item">Value: {{ input.prev_out.value }}</li>
+                  <li class="list-group-item">N: {{ input.prev_out.n }}</li>
+                  <li class="list-group-item">Script: {{ input.prev_out.script }}</li>
+                </ul>
+              </li>
+              <li href="#" class="list-group-item">script: {{ input.script }}</li>
+            </div>
+          </li>
 
-<router-outlet></router-outlet>
+          <li class="list-group-item">Time: {{ bitcoin.time }}</li>
+          <li class="list-group-item">Tx index: {{ bitcoin.tx_index }}</li>
+          <li class="list-group-item">Vin sz: {{ bitcoin.vin_sz }}</li>
+          <li class="list-group-item">Hash: {{ bitcoin.hash }}</li>
+          <li class="list-group-item">Vout sz: {{ bitcoin.vout_sz }}</li>
+          <li class="list-group-item">Relayed by: {{ bitcoin.relayed_by }}</li>
+
+          <li class="list-group-item">Out:
+              <ul class="list-group" *ngFor="let o of bitcoin.out; let i = index">
+                  <li class="list-group-item">Index: {{ i }}</li>
+                  <li class="list-group-item">Spent: {{ o.spent }}</li>
+                  <li class="list-group-item">Tx index: {{ o.tx_index }}</li>
+                  <li class="list-group-item">Type: {{ o.type }}</li>
+                  <li class="list-group-item">Address: {{ o.addr }}</li>
+                  <li class="list-group-item">Value: {{ o.value }}</li>
+                  <li class="list-group-item">N: {{ o.n }}</li>
+                  <li class="list-group-item">Script: {{ o.script }}</li>
+                </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-footer">
+      <input
+        type="text"
+        class="form-control"
+        id="command"
+        [(ngModel)]="model.command"
+        name="command"
+        required
+      />
+      <button type="button" class="btn btn-outline-primary" (click)="send()">
+        Apply
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="onclick({ op: 'ping' })"
+      >
+        Ping
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="onclick({ op: 'unconfirmed_sub' })"
+      >
+        Subscribe to notifications for all new bitcoin transactions
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="onclick({ op: 'unconfirmed_unsub' })"
+      >
+        Unsubscribe to notifications for all new bitcoin transactions
+      </button>
+    </div>
+  </div>
+</div>
